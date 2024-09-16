@@ -33,6 +33,13 @@ export default function ProfileScreen() {
     });
   };
 
+  const handleDeleteProfile = () => {
+    setAvatar(null);
+    setUsername('');
+    setIsProfileSaved(false);
+    Alert.alert('Profile Deleted!');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -65,7 +72,7 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.cancelButton} onPress={() => Alert.alert('Orders Cancelled!')}>
           <Text style={styles.buttonText}>Cancel Orders</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.deleteButton} onPress={() => Alert.alert('Profile Deleted!')}>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteProfile}>
           <Text style={styles.buttonText}>Delete Profile</Text>
         </TouchableOpacity>
       </View>
@@ -77,69 +84,102 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#1a1a1a', // Темний фон
+    backgroundColor: '#4B0082', // Dark purple background color
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
-    color: '#c0c0c0', // Світлий текст
+    color: '#FFD700', // Bright gold color for the title
+    fontWeight: 'bold',
   },
   avatarContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 140,
+    height: 140,
+    borderRadius: 70, // Full circle avatar
+    borderWidth: 4,
+    borderColor: '#FFD700', // Gold border color
   },
   noAvatarText: {
-    color: '#ddd', // Світлий текст
+    color: '#FFD700', // Gold color for "No Avatar" text
     marginBottom: 10,
+    fontSize: 16,
   },
   selectButton: {
-    padding: 10,
-    backgroundColor: '#6a0dad', // Фіолетовий колір
-    borderRadius: 5,
+    padding: 12,
+    backgroundColor: '#6A0DAD', // Medium-dark purple color for button
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   selectButtonText: {
     color: '#fff',
+    fontWeight: 'bold',
   },
   input: {
-    borderColor: '#444', // Темніший колір для бордюру
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
+    borderColor: '#FFD700', // Gold border color
+    borderWidth: 2,
+    borderRadius: 12, // Slightly rounded corners for input
+    padding: 12,
     marginBottom: 20,
-    color: '#fff', // Білий текст у полі вводу
+    color: '#fff',
+    backgroundColor: '#6A0DAD', // Darker purple input background
   },
   buttonContainer: {
     flexDirection: 'column',
-    justifyContent:'space-around',
+    alignItems: 'center',
   },
   saveButton: {
-    backgroundColor: '#6a0dad', // Фіолетовий колір
-    width:200,
-    padding: 10,
-    marginBottom:15,
-    borderRadius: 5,
-    justifyContent:'center',
-    textAlign:'center'
+    backgroundColor: '#4B0082', // Dark purple background for the button
+    paddingVertical: 12,
+    borderRadius: 30,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    borderWidth: 2,
+    borderColor: '#FFD700', // Gold border color
+    width: 200,
+    alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#8e44ad', // Світліший фіолетовий
-    padding: 10,
-    marginBottom:15,
-    borderRadius: 5,
+    backgroundColor: '#6A0DAD', // Darker purple
+    paddingVertical: 12,
+    borderRadius: 30,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    borderWidth: 2,
+    borderColor: '#FFD700',
+    width: 200,
+    alignItems: 'center',
   },
   deleteButton: {
-    backgroundColor: '#5e2a6f', // Темніший фіолетовий
-    padding: 10,
-    marginBottom:10,
-    borderRadius: 5,
+    backgroundColor: '#800080', // Dark purple for "Delete"
+    paddingVertical: 12,
+    borderRadius: 30,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    borderWidth: 2,
+    borderColor: '#FFD700',
+    width: 200,
+    alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFD700', // Gold color for button text
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
