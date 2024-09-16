@@ -41,6 +41,12 @@
 		<string>arm64</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
+	<key>NSCameraUsageDescription</key>
+     <string>We need access to your camera</string>
+     <key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>We need access to save photos</string>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

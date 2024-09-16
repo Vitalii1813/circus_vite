@@ -1,35 +1,106 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
 import BookingScreen from './src/components/BookingScreen';
 import ScheduleScreen from './src/components/ScheduleScreen';
 import ProfileScreen from './src/components/ProfileScreen';
 import HomeScreen from './src/components/HomeScreen';
 import SouvenirScreen from './src/components/SouvenirScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ClownDark from './src/svg/clownDark';
+import Profile from './src/svg/profileImage';
+import ShopImage from './src/svg/shopImage';
+import ScheduleImage from './src/svg/ScheduleImage';
+import HomeImage from './src/svg/HomeImage';
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
-export default function App() {
+function MainTabs() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown  : false}}>
-        <Stack.Screen name="Home" component={TabStumble} />
-        <Stack.Screen name="Booking" component={BookingScreen} />
-        <Stack.Screen name="Souvenirs" component={SouvenirScreen} />
-        <Stack.Screen name="Schedule" component={ScheduleScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: '#7D3C98', // Активний фіолетовий колір
+        tabBarInactiveTintColor: '#BB8FCE', // Світліший фіолетовий
+        tabBarStyle: {
+          backgroundColor: '#2C3E50', // Темний фон для вкладок
+          borderTopWidth: 0,
+          height: 60,
+          position: 'absolute',
+          paddingBottom: 0,
+          paddingHorizontal: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
+        tabBarShowLabel: false, // Сховати підписи
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <HomeImage width={size} height={size} fill={focused ? color : '#BB8FCE'} />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Booking"
+        component={BookingScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <ClownDark width={size} height={size} fill={focused ? color : '#BB8FCE'} />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Schedule"
+        component={ScheduleScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <ScheduleImage width={size} height={size} fill={focused ? color : '#BB8FCE'} />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Souvenirs"
+        component={SouvenirScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <ShopImage width={size} height={size} fill={focused ? color : '#BB8FCE'} />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Profile width={size} height={size} fill={focused ? color : '#BB8FCE'} />
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
-function TabStumble(){
+export default function App() {
   return (
-    <Tab.Navigator screenOptions={{headerShown  : false}}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={ProfileScreen} />
-    </Tab.Navigator>
+    <View style={{ flex: 1 }}>
+      <NavigationContainer>
+        <MainTabs />
+      </NavigationContainer>
+    </View>
   );
 }
