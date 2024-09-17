@@ -22,8 +22,7 @@ function MainTabs() {
         tabBarActiveTintColor: '#7D3C98', // Активний фіолетовий колір
         tabBarInactiveTintColor: '#BB8FCE', // Світліший фіолетовий
         tabBarStyle: {
-          backgroundColor: '#2C3E50', // Темний фон для вкладок
-          borderTopWidth: 0,
+          backgroundColor:'#4515A4',
           height: 60,
           position: 'absolute',
           paddingBottom: 0,
