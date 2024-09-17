@@ -12,27 +12,43 @@ type Props = {
 
 // Дані для секції "Upcoming Performances"
 const performances = [
-  { id: '1', title: 'Acrobats Extravaganza', date: '24.09.2024', imageUri: 'https://example.com/image1.jpg' },
-  { id: '2', title: 'Clown Carnival', date: '30.09.2024', imageUri: 'https://example.com/image2.jpg' },
-  { id: '3', title: 'Lion Dance Spectacular', date: '05.10.2024', imageUri: 'https://example.com/image3.jpg' },
-  { id: '4', title: 'Magic and Illusion', date: '12.10.2024', imageUri: 'https://example.com/image4.jpg' },
-  { id: '5', title: 'Juggling Extravaganza', date: '19.10.2024', imageUri: 'https://example.com/image5.jpg' },
-  { id: '6', title: 'Elephant Parade', date: '26.10.2024', imageUri: 'https://example.com/image6.jpg' },
-  { id: '7', title: 'Fire Performers', date: '02.11.2024', imageUri: 'https://example.com/image7.jpg' },
-  { id: '8', title: 'Trapeze Artists', date: '09.11.2024', imageUri: 'https://example.com/image8.jpg' },
-  { id: '9', title: 'Comedy and Acrobats', date: '16.11.2024', imageUri: 'https://example.com/image9.jpg' },
-  { id: '10', title: 'Circus Gala Night', date: '23.11.2024', imageUri: 'https://example.com/image10.jpg' },
+  { id: '1', title: 'Acrobats in Action!', date: 'Sep 20, 2024', image: require('../assets/Acrobats.png') },
+  { id: '2', title: 'Magicians Special!', date: 'Sep 21, 2024', image: require('../assets/Acrobats.png') },
+  { id: '3', title: 'Clown Performance!', date: 'Sep 22, 2024', image: require('../assets/Acrobats.png') },
+  { id: '4', title: 'Elephants Parade!', date: 'Sep 23, 2024', image: require('../assets/Acrobats.png') },
+  { id: '5', title: 'Tigers Show!', date: 'Sep 24, 2024', image: require('../assets/Acrobats.png') },
+  { id: '6', title: 'Juggling Extravaganza!', date: 'Sep 25, 2024', image: require('../assets/Acrobats.png') },
+  { id: '7', title: 'Fire Breathers!', date: 'Sep 26, 2024', image: require('../assets/Acrobats.png') },
+  { id: '8', title: 'Grand Finale Show!', date: 'Sep 27, 2024', image: require('../assets/Acrobats.png') },
 ];
+
 
 // Дані для секції "Latest News"
 const newsItems = [
-  { id: '1', title: 'World Circus Tour', date: 'Starting 21.09.2024', imageUri: 'link_to_news_image' },
-];
+    { 
+      id: '1', 
+      title: 'World Circus Tour', 
+      date: 'Starting 21.09.2024', 
+      image: require('../assets/Acrobats.png') 
+    },
+    { 
+      id: '2', 
+      title: 'New Animals Show', 
+      date: '12.10.2024', 
+      image: require('../assets/Acrobats.png') 
+    },
+    { 
+      id: '3', 
+      title: 'Exclusive Clown Performance', 
+      date: '25.09.2024', 
+      image: require('../assets/Acrobats.png') 
+    },
+  ];
 
 export default function HomeScreen({ navigation }: Props): React.JSX.Element {
   const renderPerformanceItem = ({ item }: { item: typeof performances[0] }) => (
     <View style={styles.card}>
-      <Image source={{ uri: item.imageUri }} style={styles.image} />
+      <Image source={item.image}  style={styles.image} />
       <Text style={styles.cardText}>{item.title}</Text>
       <Text style={styles.dateText}>{item.date}</Text>
     </View>
@@ -40,7 +56,7 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
 
   const renderNewsItem = ({ item }: { item: typeof newsItems[0] }) => (
     <View style={styles.newsCard}>
-      <Image source={{ uri: item.imageUri }} style={styles.newsImage} />
+      <Image source={item.image}  style={styles.newsImage} />
       <Text style={styles.newsText}>{item.title}</Text>
       <Text style={styles.newsDate}>{item.date}</Text>
     </View>
@@ -51,7 +67,8 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
       {/* Заголовок */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Welcome to the</Text>
-        <Text style={styles.subHeaderText}>Spectacular Circus Show 🎪</Text>
+        <Text style={styles.subHeaderText}>Spectacular </Text>
+        <Text style={styles.subHeaderText}>Circus  Show 🎪</Text>
       </View>
 
       {/* Секція Coming Soon */}
@@ -77,131 +94,188 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
       {/* Секція Latest News */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Latest News</Text>
-        <Text style={styles.sectionDescription}>Stay updated with the latest news and events from the circus!</Text>
-        <FlatList
-          horizontal
-          data={newsItems}
-          renderItem={renderNewsItem}
-          keyExtractor={item => item.id}
-          showsHorizontalScrollIndicator={false} // Сховати горизонтальний скролінг індикатор
-        />
-      </View>
-
-      {/* Кнопка навігації до Booking */}
-      <View style={styles.buttonContainer}>
-
+        <Text style={styles.sectionDescription}>Stay informed about the most recent circus news!</Text>
+        <View style={styles.newsContainer}>
+          <FlatList
+            data={newsItems}
+            renderItem={renderNewsItem}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false} // Сховати вертикальний скролінг індикатор
+            contentContainerStyle={styles.newsList}
+            style={styles.newsFlatList} // Стилі для списку
+          />
+        </View>
       </View>
     </ScrollView>
   );
 }
 
-// Стилі для компонентів
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2E0854', // Темніший фіолетовий фон для кращого контрасту
+    backgroundColor: '#0D0021', // Глибший темний фон для більш драматичного контрасту
     padding: 20,
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 40,
     alignItems: 'center',
+    justifyContent: 'center', // Додаємо для вертикального вирівнювання
+    height: 60, // Встановлюємо висоту, щоб чітко контролювати простір заголовка
+    paddingHorizontal: 20, // Додаємо відступи зліва і справа для більш збалансованого вигляду
   },
   headerText: {
-    color: '#F8F8FF', // Легший колір тексту
-    fontSize: 20,
-    fontWeight: '600',
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '700', // Товстіший шрифт для більшого акценту
+    letterSpacing: 1, // Додаємо відстань між літерами
+    textTransform: 'uppercase', // Перетворення в великі літери
+    textAlign: 'center',
+    lineHeight: 60, // Вирівнюємо текст вертикально, відповідно до висоти заголовка
   },
   subHeaderText: {
-    color: '#FFD700', // Золотий колір
-    fontSize: 32,
+    color: '#FFAA00', // Трохи тепліший золотий відтінок
+    fontSize: 36,
     fontWeight: 'bold',
-    textShadowColor: '#000', // Тінь для підкреслення
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
+    textShadowColor: '#000',
+    textShadowOffset: { width: 2, height: 2 }, // Більший тіньовий відступ для виділення
+    textShadowRadius: 12,
+    textTransform: 'uppercase', // Золотий підкреслюючий ефект
   },
+
   section: {
-    marginVertical: 20,
+    marginVertical: 30,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#35006E', // Більш насичений фіолетовий фон
+    borderRadius: 25, // Більш м'які округлені кути
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 7 }, // Глибші тіні
+    shadowOpacity: 0.8,
+    shadowRadius: 18,
+    elevation: 9,
+    borderColor: '#FFD700',
+    borderWidth: 1, // Додаємо тонкий золотий бордер
   },
   sectionTitle: {
-    color: '#FFD700',
-    fontSize: 26,
+    color: '#FFDD00', // Яскравіший золотий для заголовків
+    fontSize: 28, // Трохи більший текст заголовків
     fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center', // Центрування заголовків
+    textAlign: 'left',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5, // Більший інтервал для заголовків
+    marginBottom:10,
   },
   sectionDescription: {
-    color: '#F8F8FF',
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  comingSoonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap', // Дозволяє елементам переноситися на новий рядок
+    color: '#C4B6E9', // Світліший відтінок для м'якого контрасту
+    fontSize: 17,
+    fontStyle: 'italic',
+    textAlign: 'justify', // Текст по ширині для більш професійного вигляду
+    marginBottom:15,
   },
   card: {
-    width: 180, // Трохи менша ширина картки
-    backgroundColor: '#4B0082', // М'якший фіолетовий
-    padding: 15,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#FFD700', // Золотий бордер
-    marginBottom: 10, // Відступ від нижньої частини
-    shadowColor: '#000', // Тінь для карток
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 8,
-    marginRight:15,
+    width: 240, // Збільшили розмір картки
+    backgroundColor: '#5A00A0', // Глибший фіолетовий для карток
+    padding: 20,
+    borderRadius: 30, // Більш округлені кути для м'якшого вигляду
+    borderWidth: 2,
+    borderColor: '#FFDD00',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.7,
+    shadowRadius: 15,
+    elevation: 10,
+    marginRight: 20,
   },
   image: {
     width: '100%',
-    height: 130,
-    borderRadius: 15,
-    marginBottom: 10,
+    height: 150, // Збільшили розмір зображення
+    borderRadius: 20,
+    marginBottom: 12,
+    borderWidth: 1.5,
+    borderColor: '#FFD700',
   },
   cardText: {
-    color: '#F8F8FF',
-    fontSize: 18,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 19,
+    fontWeight: '700',
     textAlign: 'center',
   },
   dateText: {
     color: '#FFD700',
-    fontSize: 16,
+    fontSize: 17,
     textAlign: 'center',
   },
-  newsCard: {
-    backgroundColor: '#4B0082',
-    borderRadius: 20,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: '#FFD700',
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 8,
+  buttonContainer: {
+    marginTop: 35,
+    width: '80%', // Більше місця для кнопок
+    alignSelf: 'center', // Вирівнюємо по центру
   },
+  button: {
+    backgroundColor: '#FFAA00', // Яскравіший відтінок для кнопок
+    borderRadius: 25, // Округлені краї для кнопки
+    paddingVertical: 15,
+    paddingHorizontal: 35,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    elevation: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+    letterSpacing: 1.5, // Додаємо відстань між літерами
+  },
+  
+  newsCard: {
+    backgroundColor: '#5A00A0', // Темніший фон для новинних карток
+    borderRadius: 22,
+    padding: 15,
+    borderWidth: 2,
+    borderColor: '#FFD700',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    elevation: 12,
+    marginRight: 20,
+    marginBottom:25,
+    marginLeft:15,
+    transform: [{ scale: 1.05 }],
+  },
+  
   newsImage: {
     width: '100%',
-    height: 160,
-    borderRadius: 15,
-    marginBottom: 10,
+    height: 120,
+    borderRadius: 18,
+    marginBottom: 12,
+    borderWidth: 2,
+    borderColor: '#FFD700',
   },
   newsText: {
-    color: '#F8F8FF',
-    fontSize: 22,
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 19,
+    fontWeight: '700',
+    textAlign: 'left',
+    marginBottom: 8,
   },
   newsDate: {
     color: '#FFD700',
-    fontSize: 18,
+    fontSize: 15,
+    textAlign: 'left',
   },
-  buttonContainer: {
-    marginTop: 30,
-    width: '75%', // Ширина кнопки відносно контейнера
+  newsContainer: {
+    marginTop:30,
+    maxHeight: 400, // Обмежуємо висоту контейнера новин
+    overflow: 'hidden', // Сховати все, що виходить за межі
+  },
+  newsList: {
+    paddingBottom: 20, // Додаємо нижній відступ для списку
+  },
+  newsFlatList: {
+    // Тут можуть бути стилі для FlatList, якщо потрібно
+    flexGrow: 1, // Забезпечує, щоб FlatList займав весь доступний простір
   },
 });
