@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button, Alert, TextInput, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button, Alert, TextInput, ScrollView, Modal } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
 
 export default function BookingScreen() {
@@ -8,17 +8,52 @@ export default function BookingScreen() {
   const [selectedAnimal, setSelectedAnimal] = useState<string>('');
   const [childName, setChildName] = useState<string>('');
   const [showDetails, setShowDetails] = useState<boolean>(false);
-  const [isBirthday, setIsBirthday] = useState<boolean>(false); // Відповідь на питання про день народження
+  const [isBirthday, setIsBirthday] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [sector, setSector] = useState<number>(0);
 
-  const seats = [
-    ['2A', '2B'],
-    ['3A', '3B', '3C'],
-    ['4A', '4B', '4C', '4D'],
-    ['5A', '5B', '5C', '5D', '5E'],
-    ['6A', '6B', '6C', '6D', '6E', '6F'],
-    ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-    ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-    ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+  // Сидіння для кожного сектора у формі піраміди
+  const sectors = [
+    {
+      seats: [
+        ['1A', '1B', '1C', '1D'],
+        ['2A', '2B', '2C', '2D', '2E'],
+        ['3A', '3B', '3C', '3D', '3E', '3F'],
+        ['4A', '4B', '4C', '4D', '4E', '4F', '4G'],
+        ['5A', '5B', '5C', '5D', '5E', '5F', '5G', '5H'],
+      ],
+      color: '#FF6F61', // М'який коралово-червоний
+    },
+    {
+      seats: [
+        ['1F', '1G', '1H', '1I'],
+        ['2F', '2G', '2H', '2I', '2J'],
+        ['3F', '3G', '3H', '3I', '3J', '3K'],
+        ['4F', '4G', '4H', '4I', '4J', '4K', '4L'],
+        ['5F', '5G', '5H', '5I', '5J', '5K', '5L', '5M'],
+      ],
+      color: '#77DD77', // М'який зелений пастель
+    },
+    {
+      seats: [
+        ['1K', '1L', '1M', '1N'],
+        ['2K', '2L', '2M', '2N', '2O'],
+        ['3K', '3L', '3M', '3N', '3O', '3P'],
+        ['4K', '4L', '4M', '4N', '4O', '4P', '4Q'],
+        ['5K', '5L', '5M', '5N', '5O', '5P', '5Q', '5R'],
+      ],
+      color: '#6A5ACD', // Лавандовий синій
+    },
+    {
+      seats: [
+        ['1P', '1Q', '1R', '1S'],
+        ['2P', '2Q', '2R', '2S', '2T'],
+        ['3P', '3Q', '3R', '3S', '3T', '3U'],
+        ['4P', '4Q', '4R', '4S', '4T', '4U', '4V'],
+        ['5P', '5Q', '5R', '5S', '5T', '5U', '5V', '5W'],
+      ],
+      color: 'orange', // Ніжний пастельний жовтий
+    },
   ];
 
   const toggleSeat = (seat: string) => {
@@ -30,7 +65,6 @@ export default function BookingScreen() {
   };
 
   const handleBooking = () => {
-    // Після підтвердження бронювання запитати про день народження
     Alert.alert(
       'Celebrate Birthday',
       'Does your child want to celebrate a birthday?',
@@ -47,16 +81,18 @@ export default function BookingScreen() {
     );
   };
 
-  const showBookingDetails = (isBirthday: boolean) => {
-    setIsBirthday(isBirthday); // Зберігаємо відповідь
-    setShowDetails(true); // Показуємо деталі бронювання
+  const showBookingDetails = (birthday: boolean) => {
+    setIsBirthday(birthday);
+    setShowDetails(true);
+    setIsModalVisible(true);
 
-    if (!isBirthday) {
+    if (!birthday) {
       Alert.alert(
         'Booking Confirmed',
         `Seats: ${selectedSeats.join(', ') || 'None'}`,
         [{ text: 'OK' }]
       );
+      setSelectedSeats([]); // Очищення вибраних місць після підтвердження бронювання
     }
   };
 
@@ -68,12 +104,23 @@ export default function BookingScreen() {
     );
   };
 
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const changeSector = (direction: 'next' | 'prev') => {
+    setSector((prevSector) =>
+      direction === 'next' ? Math.min(prevSector + 1, 3) : Math.max(prevSector - 1, 0)
+    );
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Booking Seats</Text>
+      {/* Навігація між секторами */}
+      
 
       <View style={styles.triangleContainer}>
-        {seats.map((row, rowIndex) => (
+        {sectors[sector].seats.map((row, rowIndex) => (
           <View key={rowIndex} style={styles.row}>
             {row.map((seat) => (
               <TouchableOpacity
@@ -81,6 +128,7 @@ export default function BookingScreen() {
                 style={[
                   styles.seat,
                   selectedSeats.includes(seat) && styles.selectedSeat,
+                  { backgroundColor: sectors[sector].color },
                 ]}
                 onPress={() => toggleSeat(seat)}
               >
@@ -91,59 +139,85 @@ export default function BookingScreen() {
         ))}
       </View>
 
+      <View style={styles.sectorContainer}>
+        <TouchableOpacity onPress={() => changeSector('prev')}>
+          <Text style={styles.sectorButton}>{'<'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.sectorLabel}>Sector: {sector + 1}</Text>
+        <TouchableOpacity onPress={() => changeSector('next')}>
+          <Text style={styles.sectorButton}>{'>'}</Text>
+        </TouchableOpacity>
+      </View>
+
       <Text style={styles.selectedText}>
         Selected Seats: {selectedSeats.join(', ') || 'None'}
       </Text>
 
       <Button title="Confirm Booking" onPress={handleBooking} color="#FFD700" />
 
-      {/* Якщо користувач обрав святкування дня народження */}
-      {isBirthday && (
-        <View style={styles.settingsContainer}>
-          <Text style={styles.settingTitle}>Child's Name:</Text>
-          <TextInput
-            style={styles.input}
-            value={childName}
-            onChangeText={setChildName}
-            placeholder="Enter child's name"
-            placeholderTextColor="#ccc"
-          />
+      {/* Modal */}
+      <Modal
+        visible={isModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>×</Text>
+            </TouchableOpacity>
+            {isBirthday && (
+              <View style={styles.settingsContainer}>
+                <Text style={styles.settingTitle}>Child's Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={childName}
+                  onChangeText={setChildName}
+                  placeholder="Enter name"
+                  placeholderTextColor="#ccc"
+                />
 
-          <View style={styles.selectContainer}>
-            <View style={styles.selectorContainer}>
-              <Text style={styles.settingTitle}>Select Clown:</Text>
-              <ModalSelector
-                data={[
-                  { key: '', label: 'Select a clown' },
-                  { key: 'clown1', label: 'Clown 1' },
-                  { key: 'clown2', label: 'Clown 2' },
-                  { key: 'clown3', label: 'Clown 3' },
-                ]}
-                initValue="Select a clown"
-                onChange={(option) => setSelectedClown(option.key)}
-                style={styles.selector}
-              />
-            </View>
+                <View>
+                  <View style={styles.selectorContainer}>
+                    <Text style={styles.settingTitle}>Choose Clown:</Text>
+                    <ModalSelector
+                      data={[
+                        { key: '', label: 'Choose a clown' },
+                        { key: 'clown1', label: 'Clown 1' },
+                        { key: 'clown2', label: 'Clown 2' },
+                        { key: 'clown3', label: 'Clown 3' },
+                      ]}
+                      initValue="Choose a clown"
+                      onChange={(option) => setSelectedClown(option.label)}
+                      style={styles.selector}
+                      initValueTextStyle={{ color: '#fff' }}
+                    />
+                  </View>
 
-            <View style={styles.selectorContainer}>
-              <Text style={styles.settingTitle}>Select Animal:</Text>
-              <ModalSelector
-                data={[
-                  { key: '', label: 'Select an animal' },
-                  { key: 'elephant', label: 'Elephant' },
-                  { key: 'lion', label: 'Lion' },
-                  { key: 'tiger', label: 'Tiger' },
-                ]}
-                initValue="Select an animal"
-                onChange={(option) => setSelectedAnimal(option.key)}
-                style={styles.selector}
-              />
-            </View>
+                  <View style={styles.selectorContainer}>
+                    <Text style={styles.settingTitle}>Choose Animal:</Text>
+                    <ModalSelector
+                      data={[
+                        { key: '', label: 'Choose an animal' },
+                        { key: 'elephant', label: 'Elephant' },
+                        { key: 'lion', label: 'Lion' },
+                        { key: 'tiger', label: 'Tiger' },
+                      ]}
+                      initValue="Choose an animal"
+                      onChange={(option) => setSelectedAnimal(option.label)}
+                      style={styles.selector}
+                      initValueTextStyle={{ color: '#fff' }}
+                    />
+                  </View>
+                </View>
 
-            <Button title="Confirm Details" onPress={handleConfirm} color="#FFD700" />
+                <Button title="Confirm" onPress={handleConfirm} />
+              </View>
+            )}
           </View>
         </View>
-      )}
+      </Modal>
     </ScrollView>
   );
 }
@@ -151,106 +225,108 @@ export default function BookingScreen() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 20,
-    backgroundColor: '#4B0082',
+    paddingHorizontal: 16,
+    paddingVertical: 20,
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-    marginBottom: 20,
-    textAlign: 'center',
-    color: '#FFD700',
-    fontWeight: 'bold',
+    backgroundColor:'#6A2C91'
   },
   triangleContainer: {
+    flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 20,
+    marginBottom: 20,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 5,
   },
   seat: {
-    width: 30,
-    height: 30,
-    backgroundColor: 'grey',
-    margin: 5,
-    borderRadius: 15,
-    alignItems: 'center',
+    width: 30, // Менший розмір для кружечка
+    height: 30, // Менший розмір для кружечка
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#FFD700',
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 15, // Робить сидіння круглим
+    backgroundColor: '#ccc',
   },
+  
   selectedSeat: {
-    backgroundColor: 'green',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.6,
-    shadowRadius: 5,
+    backgroundColor: '#FFD700',
   },
+  
   seatLabel: {
-    fontSize: 12,
-    color: 'white',
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 10, // Зменшений шрифт для тексту в кружечку
   },
   selectedText: {
-    marginTop: 20,
-    textAlign: 'center',
-    fontSize: 18,
-    color: '#FFD700',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalContent: {
+    backgroundColor: '#4B0082',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   settingsContainer: {
-    marginTop: 30,
-    width: '100%',
-    padding: 15,
-    backgroundColor: '#3C42DE',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#FFD700',
+    marginTop: 20,
   },
   settingTitle: {
-    fontSize: 18,
-    color: '#FFD700',
+    color: '#fff',
+    fontSize: 16,
     marginBottom: 10,
   },
   input: {
-    height: 40,
-    borderColor: '#FFD700',
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
-    paddingHorizontal: 10,
-    color: '#fff',
+    padding: 10,
     marginBottom: 20,
-    backgroundColor: '#800080',
+    color: '#fff',
   },
   selectorContainer: {
-    width: '100%',
     marginBottom: 20,
   },
   selector: {
-    width: '100%',
-    backgroundColor: '#800080',
-    borderColor: '#FFD700',
-    borderWidth: 1,
+    backgroundColor: '#4B0082',
     borderRadius: 5,
-    padding: 5,
+    borderColor: '#ccc',
   },
-  detailsContainer: {
-    marginTop: 30,
-    padding: 20,
-    backgroundColor: '#800080',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#FFD700',
-  },
-  detailsTitle: {
-    fontSize: 20,
-    color: '#FFD700',
+  sectorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 10,
-    textAlign: 'center',
   },
-  detailsText: {
-    fontSize: 16,
-    color: '#fff',
+  sectorButton: {
+    fontSize: 24,
+    color: '#4B0082',
+    fontWeight: 'bold',
+    paddingHorizontal: 10,
+  },
+  sectorLabel: {
+    fontSize: 20,
+    color: '#4B0082',
+    fontWeight: 'bold',
   },
 });

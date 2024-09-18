@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#4B0082', // Темно-фіолетовий фон
+    backgroundColor: '#2E0854', // Темніший фіолетовий фон
   },
   title: {
     fontSize: 30,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   item: {
     flexDirection: 'row',
-    backgroundColor: '#6A0DAD', // Темно-фіолетовий фон для вибраних елементів
+    backgroundColor: '#4B0082', // Темно-фіолетовий фон для вибраних елементів
     padding: 10,
     borderRadius: 12,
     marginBottom: 10,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   orderItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#6A0DAD', // Темно-фіолетовий фон для замовлення
+    backgroundColor: '#4B0082', // Темно-фіолетовий фон для замовлення
     padding: 12,
     borderRadius: 12,
     marginBottom: 10,

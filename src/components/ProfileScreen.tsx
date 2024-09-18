@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#4B0082', // Dark purple background color
+    backgroundColor: '#4B0082', // Темно-фіолетовий фон
   },
   title: {
     fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
-    color: '#FFD700', // Bright gold color for the title
+    color: '#FFD700', // Золотий колір для заголовка
     fontWeight: 'bold',
   },
   avatarContainer: {
@@ -100,18 +100,18 @@ const styles = StyleSheet.create({
   avatar: {
     width: 140,
     height: 140,
-    borderRadius: 70, // Full circle avatar
+    borderRadius: 70, // Круглий аватар
     borderWidth: 4,
-    borderColor: '#FFD700', // Gold border color
+    borderColor: '#FFD700', // Золотий колір обведення
   },
   noAvatarText: {
-    color: '#FFD700', // Gold color for "No Avatar" text
+    color: '#FFD700', // Золотий колір тексту
     marginBottom: 10,
     fontSize: 16,
   },
   selectButton: {
     padding: 12,
-    backgroundColor: '#6A0DAD', // Medium-dark purple color for button
+    backgroundColor: '#6A0DAD', // Темно-фіолетовий колір для кнопки
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -123,20 +123,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    borderColor: '#FFD700', // Gold border color
+    borderColor: '#FFD700', // Золотий колір обведення
     borderWidth: 2,
-    borderRadius: 12, // Slightly rounded corners for input
+    borderRadius: 12, // Закруглені кути для інпуту
     padding: 12,
     marginBottom: 20,
     color: '#fff',
-    backgroundColor: '#6A0DAD', // Darker purple input background
+    backgroundColor: '#6A0DAD', // Темно-фіолетовий фон для інпуту
   },
   buttonContainer: {
     flexDirection: 'column',
     alignItems: 'center',
   },
   saveButton: {
-    backgroundColor: '#4B0082', // Dark purple background for the button
+    backgroundColor: '#4B0082', // Темно-фіолетовий фон для кнопки
     paddingVertical: 12,
     borderRadius: 30,
     marginBottom: 15,
@@ -145,12 +145,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     borderWidth: 2,
-    borderColor: '#FFD700', // Gold border color
+    borderColor: '#FFD700', // Золотий колір обведення
     width: 200,
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#6A0DAD', // Darker purple
+    backgroundColor: '#6A0DAD', // Темно-фіолетовий фон для кнопки
     paddingVertical: 12,
     borderRadius: 30,
     marginBottom: 15,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   deleteButton: {
-    backgroundColor: '#800080', // Dark purple for "Delete"
+    backgroundColor: '#800080', // Темно-пурпуровий для кнопки "Delete"
     paddingVertical: 12,
     borderRadius: 30,
     marginBottom: 15,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#FFD700', // Gold color for button text
+    color: '#FFD700', // Золотий колір для тексту кнопки
     fontWeight: 'bold',
     fontSize: 16,
   },
