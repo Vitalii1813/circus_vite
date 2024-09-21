@@ -1,44 +1,79 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text, Image, Button, StyleSheet, FlatList} from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types'; 
-import PhotoSession  from '../components/PhotoSession';
+import React, {useState} from 'react';
+import {
+  ScrollView,
+  View,
+  Text,
+  Image,
+  Button,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
-// Тип для пропа navigation, який відповідає за навігацію в стеку
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+import PhotoSession from '../components/PhotoSession';
 
-type Props = {
-  navigation: HomeScreenNavigationProp;
-};
-
-// Дані для секції "Upcoming Performances"
 const performances = [
-  { id: '1', title: 'Acrobats in Action!', date: 'Sep 20, 2024', image: require('../assets/Acrobats.png') },
-  { id: '2', title: 'Magicians Special!', date: 'Sep 21, 2024', image: require('../assets/Acrobats.png') },
-  // ... other performances
+  {
+    id: '1',
+    title: 'Barbary lion',
+    date: 'Sep 20, 2024',
+    image: require('../assets/animal/lion.png'),
+  },
+  {
+    id: '2',
+    title: 'African elephant',
+    date: 'Sep 21, 2024',
+    image: require('../assets/animal/elephant.png'),
+  },
+  {
+    id: '3',
+    title: 'Chimpanzee',
+    date: 'Sep 21, 2024',
+    image: require('../assets/animal/chimpanzee.png'),
+  },
+  {
+    id: '4',
+    title: 'Malayan bear',
+    date: 'Sep 21, 2024',
+    image: require('../assets/animal/bear.png'),
+  },
+  {
+    id: '5',
+    title: 'White rhinoceros',
+    date: 'Sep 21, 2024',
+    image: require('../assets/animal/rhinoceros.png'),
+  },
 ];
 
-// Дані для секції "Latest News"
 const newsItems = [
-    { id: '1', title: 'World Circus Tour', date: 'Starting 21.09.2024', image: require('../assets/Acrobats.png') },
-    { id: '2', title: 'New Animals Show', date: '12.10.2024', image: require('../assets/Acrobats.png') },
-    // ... other news
+  {
+    id: '1',
+    title: 'World Circus Tour',
+    date: 'Starting 21.09.2024',
+    image: require('../assets/Acrobats.png'),
+  },
+  {
+    id: '2',
+    title: 'New Animals Show',
+    date: '12.10.2024',
+    image: require('../assets/Acrobats.png'),
+  },
 ];
 
-export default function HomeScreen({ navigation }: Props): React.JSX.Element {
+export default function HomeScreen(): React.JSX.Element {
   const [isPhotoSessionVisible, setPhotoSessionVisible] = useState(false);
 
-  // Function to open the PhotoSession 
   const openPhotoSession = () => {
     setPhotoSessionVisible(true);
   };
 
-  // Function to close the PhotoSession
   const closePhotoSession = () => {
     setPhotoSessionVisible(false);
   };
 
-  const renderPerformanceItem = ({ item }: { item: typeof performances[0] }) => (
+  const renderPerformanceItem = ({item}: {item: (typeof performances)[0]}) => (
     <View style={styles.card}>
       <Image source={item.image} style={styles.image} />
       <Text style={styles.cardText}>{item.title}</Text>
@@ -46,7 +81,7 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
     </View>
   );
 
-  const renderNewsItem = ({ item }: { item: typeof newsItems[0] }) => (
+  const renderNewsItem = ({item}: {item: (typeof newsItems)[0]}) => (
     <View style={styles.newsCard}>
       <Image source={item.image} style={styles.newsImage} />
       <Text style={styles.newsText}>{item.title}</Text>
@@ -55,130 +90,130 @@ export default function HomeScreen({ navigation }: Props): React.JSX.Element {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Welcome to the Spectacular Circus Show 🎪</Text>
-      </View>
+    <View style={styles.container}>
+      <SafeAreaView />
+      <Text style={styles.headerText}>
+        Welcome to the <Text style={{color: '#FFDD00'}}>spectacular show</Text>
+      </Text>
 
-      {/* Upcoming Performances */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Upcoming Performances</Text>
+        <Text style={styles.sectionTitle}>Snap a photo with our animals</Text>
+
         <FlatList
           horizontal
           data={performances}
           renderItem={renderPerformanceItem}
+          ListFooterComponent={() => <View style={{width: 20}} />}
+          ItemSeparatorComponent={() => <View style={{width: 20}} />}
+          ListHeaderComponent={() => <View style={{width: 20}} />}
           keyExtractor={item => item.id}
           showsHorizontalScrollIndicator={false}
         />
+
+        <TouchableOpacity
+          onPress={() => setPhotoSessionVisible(state => !state)}
+          style={{
+            width: '90%',
+            alignSelf: 'center',
+            borderRadius: 20,
+            borderWidth: 1,
+            borderColor: '#FFDD00',
+            marginTop: 20,
+            backgroundColor: '#5A00A0',
+          }}>
+          <Text
+            style={{
+              fontSize: Dimensions.get('screen').width * 0.05,
+              paddingVertical: 12,
+              fontWeight: '500',
+              letterSpacing: 2,
+              textAlign: 'center',
+              color: '#FFF',
+            }}>
+            Book a photo session
+          </Text>
+        </TouchableOpacity>
       </View>
- {/* Button to open photo session modal */}
- 
-      {/* Button to open photo session modal */}
-      <Button title="Book a Photo Session" onPress={openPhotoSession} />
 
-      {/* PhotoSession component, conditionally rendered */}
-      {isPhotoSessionVisible && (
-        <PhotoSession onClose={closePhotoSession} /> 
-      )}
-
-      {/* Latest News */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Latest News</Text>
-        <FlatList
-          data={newsItems}
-          renderItem={renderNewsItem}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-
-     
-    </ScrollView>
+      {/* {isPhotoSessionVisible && <PhotoSession onClose={closePhotoSession} />} */}
+    </View>
   );
 }
 
-    
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0021', // Глибший темний фон для більш драматичного контрасту
+    backgroundColor: '#0D0021',
     padding: 20,
   },
   header: {
     marginBottom: 40,
     alignItems: 'center',
-    justifyContent: 'center', // Додаємо для вертикального вирівнювання
-    height: 60, // Встановлюємо висоту, щоб чітко контролювати простір заголовка
-    paddingHorizontal: 20, // Додаємо відступи зліва і справа для більш збалансованого вигляду
+    justifyContent: 'center',
+    height: 60,
+    paddingHorizontal: 20,
   },
   headerText: {
     color: '#FFFFFF',
-    fontSize: 24,
-    fontWeight: '700', // Товстіший шрифт для більшого акценту
-    letterSpacing: 1, // Додаємо відстань між літерами
-    textTransform: 'uppercase', // Перетворення в великі літери
-    textAlign: 'center',
-    lineHeight: 60, // Вирівнюємо текст вертикально, відповідно до висоти заголовка
+    fontSize: Dimensions.get('screen').width * 0.08,
+    fontWeight: '600',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    textAlign: 'left',
   },
   subHeaderText: {
-    color: '#FFAA00', // Трохи тепліший золотий відтінок
+    color: '#FFAA00',
     fontSize: 36,
     fontWeight: 'bold',
     textShadowColor: '#000',
-    textShadowOffset: { width: 2, height: 2 }, // Більший тіньовий відступ для виділення
+    textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 12,
-    textTransform: 'uppercase', // Золотий підкреслюючий ефект
+    textTransform: 'uppercase',
   },
-
   section: {
     marginVertical: 30,
     paddingVertical: 20,
-    paddingHorizontal: 20,
-    backgroundColor: '#35006E', // Більш насичений фіолетовий фон
-    borderRadius: 25, // Більш м'які округлені кути
+    backgroundColor: '#35006E',
+    borderRadius: 25,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 7 }, // Глибші тіні
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.8,
     shadowRadius: 18,
     elevation: 9,
     borderColor: '#FFD700',
-    borderWidth: 1, // Додаємо тонкий золотий бордер
+    borderWidth: 1,
   },
   sectionTitle: {
-    color: '#FFDD00', // Яскравіший золотий для заголовків
-    fontSize: 28, // Трохи більший текст заголовків
-    fontWeight: 'bold',
+    color: '#FFDD00',
+    fontSize: Dimensions.get('screen').width * 0.061243123,
+    fontWeight: '600',
     textAlign: 'left',
     textTransform: 'uppercase',
-    letterSpacing: 1.5, // Більший інтервал для заголовків
-    marginBottom:10,
+    letterSpacing: 1.5,
+    marginHorizontal: '5%',
+    marginBottom: 10,
   },
   sectionDescription: {
-    color: '#C4B6E9', // Світліший відтінок для м'якого контрасту
+    color: '#C4B6E9',
     fontSize: 17,
     fontStyle: 'italic',
-    textAlign: 'justify', // Текст по ширині для більш професійного вигляду
-    marginBottom:15,
+    textAlign: 'justify',
+    marginBottom: 15,
   },
   card: {
-    width: 240, // Збільшили розмір картки
-    backgroundColor: '#5A00A0', // Глибший фіолетовий для карток
-    padding: 20,
-    borderRadius: 30, // Більш округлені кути для м'якшого вигляду
+    width: 240,
+    backgroundColor: '#5A00A0',
+    paddingHorizontal: '5%',
+    borderRadius: 30,
     borderWidth: 2,
     borderColor: '#FFDD00',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.7,
-    shadowRadius: 15,
-    elevation: 10,
-    marginRight: 20,
+    gap: 8,
+    paddingVertical: 12,
   },
   image: {
     width: '100%',
-    height: 150, // Збільшили розмір зображення
+    height: 150,
     borderRadius: 20,
-    marginBottom: 12,
     borderWidth: 1.5,
     borderColor: '#FFD700',
   },
@@ -186,34 +221,31 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 19,
     fontWeight: '700',
-    textAlign: 'center',
   },
   dateText: {
     color: '#FFD700',
     fontSize: 17,
-    textAlign: 'center',
   },
-
   newsCard: {
-    backgroundColor: '#5A00A0', // Темніший фон для новинних карток
+    backgroundColor: '#5A00A0',
     borderRadius: 22,
     padding: 15,
     borderWidth: 2,
     borderColor: '#FFD700',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.8,
     shadowRadius: 20,
     elevation: 12,
     marginRight: 20,
-    marginBottom:25,
-    marginLeft:15,
-    transform: [{ scale: 1.05 }],
+    marginBottom: 25,
+    marginLeft: 15,
+    transform: [{scale: 1.05}],
   },
-  
- newsImage: {
+
+  newsImage: {
     width: '100%',
-    height: 120, // Розмір зображення для новинних карток
+    height: 120,
     borderRadius: 18,
     marginBottom: 10,
     borderWidth: 1.5,
@@ -232,10 +264,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   newsList: {
-    paddingBottom: 20, // Відступ для списку новин
+    paddingBottom: 20,
   },
   newsFlatList: {
-    height: 350, // Встановлюємо максимальну висоту для FlatList, щоб він не займав всю сторінку
+    height: 350,
   },
   animalList: {
     flexDirection: 'row',
@@ -243,18 +275,18 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   animalButton: {
-    backgroundColor: '#6A2C91', // Фіолетовий фон для кнопок тварин
+    backgroundColor: '#6A2C91',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 12,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
+    shadowOffset: {width: 0, height: 5},
     shadowOpacity: 0.6,
     shadowRadius: 8,
     elevation: 6,
   },
   animalText: {
-    color: '#FFD700', // Золотий текст для кнопок тварин
+    color: '#FFD700',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -266,7 +298,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: {width: 0, height: 6},
     shadowOpacity: 0.6,
     shadowRadius: 9,
     elevation: 7,
@@ -311,10 +343,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   modalContainer: {
-  flex: 1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
     width: '80%',
