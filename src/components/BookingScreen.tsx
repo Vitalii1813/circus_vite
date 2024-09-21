@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button, Alert, TextInput, ScrollView, Modal } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function BookingScreen() {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
@@ -11,56 +12,170 @@ export default function BookingScreen() {
   const [isBirthday, setIsBirthday] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [sector, setSector] = useState<number>(0);
+  const MAX_SEATS = 5;
 
   // Сидіння для кожного сектора у формі піраміди
   const sectors = [
-    {
-      seats: [
-        ['1A', '1B', '1C', '1D'],
-        ['2A', '2B', '2C', '2D', '2E'],
-        ['3A', '3B', '3C', '3D', '3E', '3F'],
-        ['4A', '4B', '4C', '4D', '4E', '4F', '4G'],
-        ['5A', '5B', '5C', '5D', '5E', '5F', '5G', '5H'],
-      ],
-      color: '#FF6F61', // М'який коралово-червоний
-    },
-    {
-      seats: [
-        ['1F', '1G', '1H', '1I'],
-        ['2F', '2G', '2H', '2I', '2J'],
-        ['3F', '3G', '3H', '3I', '3J', '3K'],
-        ['4F', '4G', '4H', '4I', '4J', '4K', '4L'],
-        ['5F', '5G', '5H', '5I', '5J', '5K', '5L', '5M'],
-      ],
-      color: '#77DD77', // М'який зелений пастель
-    },
-    {
-      seats: [
-        ['1K', '1L', '1M', '1N'],
-        ['2K', '2L', '2M', '2N', '2O'],
-        ['3K', '3L', '3M', '3N', '3O', '3P'],
-        ['4K', '4L', '4M', '4N', '4O', '4P', '4Q'],
-        ['5K', '5L', '5M', '5N', '5O', '5P', '5Q', '5R'],
-      ],
-      color: '#6A5ACD', // Лавандовий синій
-    },
-    {
-      seats: [
-        ['1P', '1Q', '1R', '1S'],
-        ['2P', '2Q', '2R', '2S', '2T'],
-        ['3P', '3Q', '3R', '3S', '3T', '3U'],
-        ['4P', '4Q', '4R', '4S', '4T', '4U', '4V'],
-        ['5P', '5Q', '5R', '5S', '5T', '5U', '5V', '5W'],
-      ],
-      color: 'orange', // Ніжний пастельний жовтий
-    },
-  ];
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
 
-  const toggleSeat = (seat: string) => {
-    if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+
+  {
+    seats: [
+      ['2A', '2B'],
+      ['3A', '3B', '3C'],
+      ['4A', '4B', '4C', '4D'],
+      ['5A', '5B', '5C', '5D', '5E'],
+      ['6A', '6B', '6C', '6D', '6E', '6F'],
+      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+    ],
+    color: 'white',
+  },
+ 
+   
+  
+  
+];
+
+  const toggleSeat = (seat:string) => {
+    if (selectedSeats.length < MAX_SEATS) {
+      setSelectedSeats(prevSeats => [...prevSeats, seat]);
     } else {
-      setSelectedSeats([...selectedSeats, seat]);
+      alert(`You can only select up to ${MAX_SEATS} seats.`);
     }
   };
 
@@ -79,6 +194,31 @@ export default function BookingScreen() {
         },
       ]
     );
+  };
+
+  const handleCancel = () => {
+    Alert.alert(
+      'Cancel Booking',
+      'Are you sure you want to cancel the booking?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancellation cancelled'),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            cancelBooking(); // Скидаємо вибрані місця
+            console.log('Booking has been cancelled.');
+          },
+        },
+      ]
+    );
+  };
+
+  const cancelBooking = () => {
+    setSelectedSeats([]); // Очищення вибраних місць
   };
 
   const showBookingDetails = (birthday: boolean) => {
@@ -110,14 +250,15 @@ export default function BookingScreen() {
 
   const changeSector = (direction: 'next' | 'prev') => {
     setSector((prevSector) =>
-      direction === 'next' ? Math.min(prevSector + 1, 3) : Math.max(prevSector - 1, 0)
+      direction === 'next' ? Math.min(prevSector + 1, 8) : Math.max(prevSector - 1, 0)
     );
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Навігація між секторами */}
-      
+      <View >
+        <Text style={styles.placeHeader}> PLINKO</Text>
+      </View>
 
       <View style={styles.triangleContainer}>
         {sectors[sector].seats.map((row, rowIndex) => (
@@ -140,6 +281,7 @@ export default function BookingScreen() {
       </View>
 
       <View style={styles.sectorContainer}>
+
         <TouchableOpacity onPress={() => changeSector('prev')}>
           <Text style={styles.sectorButton}>{'<'}</Text>
         </TouchableOpacity>
@@ -149,12 +291,25 @@ export default function BookingScreen() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.selectedText}>
-        Selected Seats: {selectedSeats.join(', ') || 'None'}
-      </Text>
+      <LinearGradient
+        colors={['#1E90FF', '#4B0082']} // Синій до фіолетового
+        style={styles.selectedContainer}>
+        <View>
+          <Text style={styles.selectedText}>
+            Selected Seats: {selectedSeats.join(', ') || 'None'}
+          </Text>
+        </View>
+      </LinearGradient>
+      
 
-      <Button title="Confirm Booking" onPress={handleBooking} color="#FFD700" />
-
+      <View style={styles.container}>
+      <TouchableOpacity style={styles.purpleGoldButton} onPress={handleBooking}>
+        <Text style={styles.purpleGoldButtonText}>Confirm Booking</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.purpleGoldButton} onPress={handleCancel}>
+        <Text style={styles.purpleGoldButtonText}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
       {/* Modal */}
       <Modal
         visible={isModalVisible}
@@ -169,7 +324,7 @@ export default function BookingScreen() {
             </TouchableOpacity>
             {isBirthday && (
               <View style={styles.settingsContainer}>
-                <Text style={styles.settingTitle}>Child's Name:</Text>
+                <Text style={styles.settingTitle}>{childName ? childName : `Child's Name`}</Text>
                 <TextInput
                   style={styles.input}
                   value={childName}
@@ -180,7 +335,7 @@ export default function BookingScreen() {
 
                 <View>
                   <View style={styles.selectorContainer}>
-                    <Text style={styles.settingTitle}>Choose Clown:</Text>
+                    <Text style={styles.settingTitle}>{selectedClown ? selectedClown : `Chose Clown:`}</Text>
                     <ModalSelector
                       data={[
                         { key: '', label: 'Choose a clown' },
@@ -196,7 +351,7 @@ export default function BookingScreen() {
                   </View>
 
                   <View style={styles.selectorContainer}>
-                    <Text style={styles.settingTitle}>Choose Animal:</Text>
+                    <Text style={styles.settingTitle}>{selectedAnimal ? selectedAnimal : `Chose an animal:`}</Text>
                     <ModalSelector
                       data={[
                         { key: '', label: 'Choose an animal' },
@@ -234,19 +389,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: 20,
+    marginLeft:15,
+    marginTop:40
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
   seat: {
-    width: 30, // Менший розмір для кружечка
-    height: 30, // Менший розмір для кружечка
+    width: 20, 
+    height: 20, 
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    borderRadius: 15, // Робить сидіння круглим
-    backgroundColor: '#ccc',
+    borderRadius: 15, 
+    backgroundColor: 'black',
   },
   
   selectedSeat: {
@@ -254,14 +411,24 @@ const styles = StyleSheet.create({
   },
   
   seatLabel: {
-    color: '#fff',
+    color: 'black',
     fontWeight: 'bold',
-    fontSize: 10, // Зменшений шрифт для тексту в кружечку
+    fontSize: 8,
+  },
+  selectedContainer: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+    borderRadius:30,
   },
   selectedText: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#FFD700', // Золотий колір для тексту
+    textAlign: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   modalOverlay: {
     flex: 1,
@@ -312,21 +479,57 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#ccc',
   },
+  placeHeader: {
+    fontSize: 46,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    textShadowColor: 'rgba(75, 0, 130, 0.7)',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 8,
+    letterSpacing: 2,
+    textAlign: 'center',
+    paddingHorizontal: 30,
+    paddingVertical: 20,
+    marginTop: 30,
+    textTransform: 'uppercase',
+  },
+  purpleGoldButton: {
+    backgroundColor: '#800080', // Rich purple base
+    borderRadius: 25, // Rounded corners for a modern look
+    paddingVertical: 12, // Comfortable padding
+    paddingHorizontal: 24, 
+    borderWidth: 2,
+    borderColor: '#FFD700', // Gold border for emphasis
+    shadowColor: '#FFD700', // Subtle gold shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5, // For Android shadow effect
+  },
+  purpleGoldButtonText: {
+    color: '#FFD700', // Gold text
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   sectorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
+    justifyContent: 'space-between', // Розподіляє елементи рівномірно
+    marginBottom: 20,
+    paddingHorizontal: 20, // Додає відступи з боків
+    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Напівпрозорий фон
+    borderRadius: 25, // Закруглені кути
   },
   sectorButton: {
     fontSize: 24,
-    color: '#4B0082',
+    color: '#FFD700', // Золотистий колір
     fontWeight: 'bold',
-    paddingHorizontal: 10,
+    padding: 10,
   },
   sectorLabel: {
-    fontSize: 20,
-    color: '#4B0082',
+    fontSize: 18,
+    color: '#fff',
     fontWeight: 'bold',
   },
 });
