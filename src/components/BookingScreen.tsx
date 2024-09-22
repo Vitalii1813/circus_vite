@@ -13,18 +13,33 @@ export default function BookingScreen() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [sector, setSector] = useState<number>(0);
   const MAX_SEATS = 5;
-  const numBlocks = 15; // Кількість квадратів
+  const numBlocks = 10; // Кількість квадратів
 
+  const getRandomRedOrangeColor = () => {
+    const r = 255; // Постійний червоний компонент
+    const g = Math.floor(Math.random() * 150) + 50; // Зелений компонент між 50 і 200 (оранжеві відтінки)
+    const b = Math.floor(Math.random() * 30); // Синій компонент між 0 і 30 для збереження теплого відтінку
+  
+    const toHex = (value) => value.toString(16).padStart(2, '0').toUpperCase();
+    
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  };
+  
   const data = Array.from({ length: numBlocks }, (_, index) => ({
     id: index.toString(),
     multiplier: Math.floor(Math.random() * 10) + 1, // Випадкове число від 1 до 10
+    gradientColors: [getRandomRedOrangeColor(), getRandomRedOrangeColor()] // Випадкові червоно-оранжеві кольори
   }));
-  
-  const renderItem = ({ item }) => (
-      <View key={item.id} style={styles.block}>
-        <Text style={styles.blockText}>{item.multiplier}x</Text>
-      </View>
-  );
+
+ const renderItem = ({ item }) => (
+  <LinearGradient
+    colors={item.gradientColors} // Використовуємо унікальні кольори для кожного елемента
+    key={item.id}
+    style={styles.block}
+  >
+    <Text style={styles.blockText}>{item.multiplier}x</Text>
+  </LinearGradient>
+);
 
   // Сидіння для кожного сектора у формі піраміди
   const sectors = [
@@ -304,14 +319,14 @@ export default function BookingScreen() {
       </View>
 
       <View style={styles.gradientLineBlocks}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        numColumns={5} // Кількість стовпців (адаптуйте під свій дизайн)
-      />
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          numColumns={10} // Кількість стовпців (адаптуйте під свій дизайн)
+        />
       </View>
-  
+
 
       <LinearGradient
         colors={['#1E90FF', '#4B0082']} // Синій до фіолетового
@@ -406,9 +421,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     alignItems: 'center',
     backgroundColor: '#6A2C91',
-    flexWrap:'nowrap',
-    borderColor:'red',
-    borderWidth:2,
+    flexWrap: 'nowrap',
   },
   triangleContainer: {
     flexDirection: 'column',
@@ -416,14 +429,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 15,
     marginTop: 40,
-    borderColor:'red',
-    borderWidth:2,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
-    borderColor:'red',
-    borderWidth:2,
   },
   seat: {
     width: 20,
@@ -450,11 +459,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     borderRadius: 30,
-    borderColor:'red',
-    borderWidth:2,
   },
   selectedText: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#FFD700', // Золотий колір для тексту
     textAlign: 'center',
@@ -488,8 +495,6 @@ const styles = StyleSheet.create({
   },
   settingsContainer: {
     marginTop: 20,
-    borderColor:'red',
-    borderWidth:2,
   },
   settingTitle: {
     color: '#fff',
@@ -513,6 +518,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
   placeHeader: {
+    position: 'relative',
     fontSize: 46,
     fontWeight: 'bold',
     color: '#FFD700',
@@ -523,10 +529,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 30,
     paddingVertical: 20,
-    marginTop: 70,
+    marginTop: 60,
     textTransform: 'uppercase',
-    borderColor:'red',
-    borderWidth:2,
   },
   purpleGoldButton: {
     backgroundColor: '#800080', // Rich purple base
@@ -556,8 +560,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, // Додає відступи з боків
     backgroundColor: 'rgba(0, 0, 0, 0.3)', // Напівпрозорий фон
     borderRadius: 25, // Закруглені кути
-    borderColor:'red',
-    borderWidth:2,
   },
   sectorButton: {
     fontSize: 24,
@@ -572,27 +574,27 @@ const styles = StyleSheet.create({
   },
   gradientLineBlocks: {
     flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'nowrap', // Вимикаємо перенесення блоків на новий рядок
-    marginBottom: 10,
-    marginLeft: 5,
-    marginTop: 20,
-    borderColor: 'green',
-    borderWidth: 2,
-    overflow: 'scroll', // Додаємо прокрутку, якщо елементи не вміщаються по ширині
-    width: '100%', // Переконайся, що контейнер використовує всю доступну ширину
+    justifyContent: 'center',
+    flexWrap: 'nowrap',
+    marginLeft: 33,
+    marginRight: 20,
+    marginBottom: 15,
+    width: '100%',
   },
   block: {
-    width: 25,
-    height: 25,
-    backgroundColor: 'lightgray',
-    marginHorizontal: 5, // Додаємо простір між блоками з обох боків
+    width: '8.5%',
+    height: 27, // Збільшуємо висоту для кращої читабельності
+    backgroundColor: '#f0f0f0', // Або використовуємо градієнт
+    marginHorizontal: 2.5,
+    marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5, // Закруглені кути
+    padding: 0
   },
-blockText: {
-  fontSize: 10,              // Розмір тексту
-  fontWeight: 'bold',        // Жирний текст
-  color: '#000',             // Колір тексту
-},
+  blockText: {
+    fontSize: 12, // Збільшуємо розмір шрифту
+    fontWeight: 'bold',
+    color: '#333', // Темніший колір тексту для кращого контрасту
+  },
 });
