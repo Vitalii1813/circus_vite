@@ -17,7 +17,6 @@ export default function ScheduleScreen() {
   const [filteredSchedule, setFilteredSchedule] = useState(scheduleData);
   const [isFiltered, setIsFiltered] = useState(false);
 
-  // Обробка підтвердження коду сеансу
   const handleConfirmSession = () => {
     const sessionCodeLower = sessionCode.trim().toLowerCase();
 
@@ -26,7 +25,6 @@ export default function ScheduleScreen() {
       setFilteredSchedule(scheduleData);
       setIsFiltered(false);
     } else {
-      // Пошук відповідного виступу за кодом або назвою
       const filtered = scheduleData.filter((item) =>
         item.code.toLowerCase() === sessionCodeLower ||
         item.title.toLowerCase().includes(sessionCodeLower)
@@ -44,14 +42,12 @@ export default function ScheduleScreen() {
     }
   };
 
-  // Очищення фільтрації та повернення до всього розкладу
   const clearFilter = () => {
     setSessionCode('');
     setFilteredSchedule(scheduleData);
     setIsFiltered(false);
   };
 
-  // Очищення фільтрації при зміні коду
   useEffect(() => {
     if (sessionCode === '') {
       setFilteredSchedule(scheduleData);
@@ -59,7 +55,6 @@ export default function ScheduleScreen() {
     }
   }, [sessionCode]);
 
-  // Рендер одного елемента списку
   const renderScheduleItem = ({ item }) => (
     <View style={styles.scheduleItem}>
       <Text style={styles.scheduleTitle}>{item.title}</Text>
@@ -69,12 +64,10 @@ export default function ScheduleScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Заголовок */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Performance Schedule</Text>
       </View>
 
-      {/* Список розкладу */}
       <FlatList
         data={filteredSchedule}
         renderItem={renderScheduleItem}
@@ -85,7 +78,6 @@ export default function ScheduleScreen() {
         )}
       />
 
-      {/* Поле введення коду сеансу */}
       <TextInput
         style={styles.input}
         placeholder="Enter Session Code or Title"
@@ -95,7 +87,7 @@ export default function ScheduleScreen() {
         autoCapitalize="none"
         keyboardType="default"
         returnKeyType="search"
-        onSubmitEditing={handleConfirmSession} // Додає обробник на натискання Enter
+        onSubmitEditing={handleConfirmSession}
       />
 
       <View style={styles.buttonContainer}>
@@ -113,7 +105,7 @@ export default function ScheduleScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#330066', // Темно-фіолетовий фон
+    backgroundColor: '#330066',
     padding: 20,
   },
   header: {
@@ -125,14 +117,14 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFD700', // Золотий колір для тексту заголовка
+    color: '#FFD700',
     marginLeft: 10,
   },
   scheduleList: {
     marginTop: 10,
   },
   scheduleItem: {
-    backgroundColor: '#5D3B91', // Темний, насичений фіолетовий
+    backgroundColor: '#5D3B91',
     padding: 15,
     marginBottom: 10,
     borderRadius: 15,

@@ -16,32 +16,32 @@ export default function BookingScreen() {
   const numBlocks = 10; // Кількість квадратів
 
   const getRandomRedOrangeColor = () => {
-    const r = 255; // Постійний червоний компонент
-    const g = Math.floor(Math.random() * 150) + 50; // Зелений компонент між 50 і 200 (оранжеві відтінки)
-    const b = Math.floor(Math.random() * 30); // Синій компонент між 0 і 30 для збереження теплого відтінку
-  
+    const r = 255; 
+    const g = Math.floor(Math.random() * 150) + 50; 
+    const b = Math.floor(Math.random() * 30); 
+
     const toHex = (value) => value.toString(16).padStart(2, '0').toUpperCase();
-    
+
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   };
-  
+
   const data = Array.from({ length: numBlocks }, (_, index) => ({
     id: index.toString(),
-    multiplier: Math.floor(Math.random() * 10) + 1, // Випадкове число від 1 до 10
-    gradientColors: [getRandomRedOrangeColor(), getRandomRedOrangeColor()] // Випадкові червоно-оранжеві кольори
+    multiplier: Math.floor(Math.random() * 10) + 1,
+    gradientColors: [getRandomRedOrangeColor(), getRandomRedOrangeColor()] 
   }));
 
- const renderItem = ({ item }) => (
-  <LinearGradient
-    colors={item.gradientColors} // Використовуємо унікальні кольори для кожного елемента
-    key={item.id}
-    style={styles.block}
-  >
-    <Text style={styles.blockText}>{item.multiplier}x</Text>
-  </LinearGradient>
-);
+  const renderItem = ({ item }) => (
+    <LinearGradient
+      colors={item.gradientColors}
+      key={item.id}
+      style={styles.block}
+    >
+      <Text style={styles.blockText}>{item.multiplier}x</Text>
+    </LinearGradient>
+  );
 
-  // Сидіння для кожного сектора у формі піраміди
+
   const sectors = [
     {
       seats: [
@@ -236,7 +236,7 @@ export default function BookingScreen() {
         {
           text: 'Yes',
           onPress: () => {
-            cancelBooking(); // Скидаємо вибрані місця
+            cancelBooking(); 
             console.log('Booking has been cancelled.');
           },
         },
@@ -245,7 +245,7 @@ export default function BookingScreen() {
   };
 
   const cancelBooking = () => {
-    setSelectedSeats([]); // Очищення вибраних місць
+    setSelectedSeats([]); 
   };
 
   const showBookingDetails = (birthday: boolean) => {
@@ -259,7 +259,7 @@ export default function BookingScreen() {
         `Seats: ${selectedSeats.join(', ') || 'None'}`,
         [{ text: 'OK' }]
       );
-      setSelectedSeats([]); // Очищення вибраних місць після підтвердження бронювання
+      setSelectedSeats([]); 
     }
   };
 
@@ -307,6 +307,17 @@ export default function BookingScreen() {
         ))}
       </View>
 
+
+
+      <View style={styles.gradientLineBlocks}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          numColumns={10}
+        />
+      </View>
+
       <View style={styles.sectorContainer}>
 
         <TouchableOpacity onPress={() => changeSector('prev')}>
@@ -318,18 +329,8 @@ export default function BookingScreen() {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.gradientLineBlocks}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          numColumns={10} // Кількість стовпців (адаптуйте під свій дизайн)
-        />
-      </View>
-
-
       <LinearGradient
-        colors={['#1E90FF', '#4B0082']} // Синій до фіолетового
+        colors={['#1E90FF', '#4B0082']}
         style={styles.selectedContainer}>
         <View>
           <Text style={styles.selectedText}>
@@ -347,7 +348,6 @@ export default function BookingScreen() {
           <Text style={styles.purpleGoldButtonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
-      {/* Modal */}
       <Modal
         visible={isModalVisible}
         transparent={true}
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
   selectedText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFD700', // Золотий колір для тексту
+    color: '#FFD700', 
     textAlign: 'center',
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -533,13 +533,13 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   purpleGoldButton: {
-    backgroundColor: '#800080', // Rich purple base
-    borderRadius: 25, // Rounded corners for a modern look
-    paddingVertical: 12, // Comfortable padding
+    backgroundColor: '#800080', 
+    borderRadius: 25, 
+    paddingVertical: 12, 
     paddingHorizontal: 24,
     borderWidth: 2,
-    borderColor: '#FFD700', // Gold border for emphasis
-    shadowColor: '#FFD700', // Subtle gold shadow
+    borderColor: '#FFD700', 
+    shadowColor: '#FFD700',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
@@ -547,7 +547,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   purpleGoldButtonText: {
-    color: '#FFD700', // Gold text
+    color: '#FFD700', 
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -555,15 +555,15 @@ const styles = StyleSheet.create({
   sectorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Розподіляє елементи рівномірно
+    justifyContent: 'space-between', 
     marginBottom: 20,
-    paddingHorizontal: 20, // Додає відступи з боків
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Напівпрозорий фон
-    borderRadius: 25, // Закруглені кути
+    paddingHorizontal: 20, 
+    backgroundColor: 'rgba(0, 0, 0, 0.3)', 
+    borderRadius: 25, 
   },
   sectorButton: {
     fontSize: 24,
-    color: '#FFD700', // Золотистий колір
+    color: '#FFD700', 
     fontWeight: 'bold',
     padding: 10,
   },
@@ -583,18 +583,18 @@ const styles = StyleSheet.create({
   },
   block: {
     width: '8.5%',
-    height: 27, // Збільшуємо висоту для кращої читабельності
-    backgroundColor: '#f0f0f0', // Або використовуємо градієнт
+    height: 27, 
+    backgroundColor: '#f0f0f0', 
     marginHorizontal: 2.5,
     marginVertical: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5, // Закруглені кути
+    borderRadius: 5, 
     padding: 0
   },
   blockText: {
-    fontSize: 12, // Збільшуємо розмір шрифту
+    fontSize: 12, 
     fontWeight: 'bold',
-    color: '#333', // Темніший колір тексту для кращого контрасту
+    color: '#333', 
   },
 });

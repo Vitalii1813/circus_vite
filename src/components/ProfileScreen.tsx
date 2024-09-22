@@ -84,15 +84,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#4B0082', // Темно-фіолетовий фон
+    backgroundColor: '#4B0082',
   },
   title: {
     fontSize: 28,
     marginBottom: 20,
     textAlign: 'center',
-    color: '#FFD700', // Золотий колір для заголовка
+    color: '#FFD700',
     fontWeight: 'bold',
-    marginTop:40
+    marginTop: 40,
   },
   avatarContainer: {
     alignItems: 'center',
@@ -101,18 +101,18 @@ const styles = StyleSheet.create({
   avatar: {
     width: 140,
     height: 140,
-    borderRadius: 70, // Круглий аватар
+    borderRadius: 70,
     borderWidth: 4,
-    borderColor: '#FFD700', // Золотий колір обведення
+    borderColor: '#FFD700',
   },
   noAvatarText: {
-    color: '#FFD700', // Золотий колір тексту
+    color: '#FFD700',
     marginBottom: 10,
     fontSize: 16,
   },
   selectButton: {
     padding: 12,
-    backgroundColor: '#6A0DAD', // Темно-фіолетовий колір для кнопки
+    backgroundColor: '#6A0DAD',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -124,20 +124,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    borderColor: '#FFD700', // Золотий колір обведення
+    borderColor: '#FFD700',
     borderWidth: 2,
-    borderRadius: 12, // Закруглені кути для інпуту
+    borderRadius: 12,
     padding: 12,
     marginBottom: 20,
     color: '#fff',
-    backgroundColor: '#6A0DAD', // Темно-фіолетовий фон для інпуту
+    backgroundColor: '#6A0DAD',
   },
   buttonContainer: {
     flexDirection: 'column',
     alignItems: 'center',
   },
   saveButton: {
-    backgroundColor: '#4B0082', // Темно-фіолетовий фон для кнопки
+    backgroundColor: '#4B0082',
     paddingVertical: 12,
     borderRadius: 30,
     marginBottom: 15,
@@ -146,12 +146,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     borderWidth: 2,
-    borderColor: '#FFD700', // Золотий колір обведення
+    borderColor: '#FFD700',
     width: 200,
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: '#6A0DAD', // Темно-фіолетовий фон для кнопки
+    backgroundColor: '#6A0DAD',
     paddingVertical: 12,
     borderRadius: 30,
     marginBottom: 15,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   deleteButton: {
-    backgroundColor: '#800080', // Темно-пурпуровий для кнопки "Delete"
+    backgroundColor: '#800080',
     paddingVertical: 12,
     borderRadius: 30,
     marginBottom: 15,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#FFD700', // Золотий колір для тексту кнопки
+    color: '#FFD700',
     fontWeight: 'bold',
     fontSize: 16,
   },
