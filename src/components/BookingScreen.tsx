@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button, Alert, TextInput, ScrollView, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button, Alert, TextInput, ScrollView, Modal, FlatList } from 'react-native';
 import ModalSelector from 'react-native-modal-selector';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -13,165 +13,177 @@ export default function BookingScreen() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [sector, setSector] = useState<number>(0);
   const MAX_SEATS = 5;
+  const numBlocks = 15; // Кількість квадратів
+
+  const data = Array.from({ length: numBlocks }, (_, index) => ({
+    id: index.toString(),
+    multiplier: Math.floor(Math.random() * 10) + 1, // Випадкове число від 1 до 10
+  }));
+  
+  const renderItem = ({ item }) => (
+      <View key={item.id} style={styles.block}>
+        <Text style={styles.blockText}>{item.multiplier}x</Text>
+      </View>
+  );
 
   // Сидіння для кожного сектора у формі піраміди
   const sectors = [
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  {
-    seats: [
-      ['2A', '2B'],
-      ['3A', '3B', '3C'],
-      ['4A', '4B', '4C', '4D'],
-      ['5A', '5B', '5C', '5D', '5E'],
-      ['6A', '6B', '6C', '6D', '6E', '6F'],
-      ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
-      ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
-      ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
-      ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
-    ],
-    color: 'white',
-  },
- 
-   
-  
-  
-];
+    {
+      seats: [
+        ['2A', '2B'],
+        ['3A', '3B', '3C'],
+        ['4A', '4B', '4C', '4D'],
+        ['5A', '5B', '5C', '5D', '5E'],
+        ['6A', '6B', '6C', '6D', '6E', '6F'],
+        ['7A', '7B', '7C', '7D', '7E', '7F', '7G'],
+        ['8A', '8B', '8C', '8D', '8E', '8F', '8G', '8H'],
+        ['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I'],
+        ['10A', '10B', '10C', '10D', '10E', '10F', '10G', '10H', '10I', '10J'],
+      ],
+      color: 'white',
+    },
 
-  const toggleSeat = (seat:string) => {
+
+
+
+  ];
+
+  const toggleSeat = (seat: string) => {
     if (selectedSeats.length < MAX_SEATS) {
       setSelectedSeats(prevSeats => [...prevSeats, seat]);
     } else {
@@ -291,6 +303,16 @@ export default function BookingScreen() {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.gradientLineBlocks}>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        numColumns={5} // Кількість стовпців (адаптуйте під свій дизайн)
+      />
+      </View>
+  
+
       <LinearGradient
         colors={['#1E90FF', '#4B0082']} // Синій до фіолетового
         style={styles.selectedContainer}>
@@ -300,16 +322,16 @@ export default function BookingScreen() {
           </Text>
         </View>
       </LinearGradient>
-      
+
 
       <View style={styles.container}>
-      <TouchableOpacity style={styles.purpleGoldButton} onPress={handleBooking}>
-        <Text style={styles.purpleGoldButtonText}>Confirm Booking</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.purpleGoldButton} onPress={handleCancel}>
-        <Text style={styles.purpleGoldButtonText}>Cancel</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.purpleGoldButton} onPress={handleBooking}>
+          <Text style={styles.purpleGoldButtonText}>Confirm Booking</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.purpleGoldButton} onPress={handleCancel}>
+          <Text style={styles.purpleGoldButtonText}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
       {/* Modal */}
       <Modal
         visible={isModalVisible}
@@ -383,33 +405,40 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 20,
     alignItems: 'center',
-    backgroundColor:'#6A2C91'
+    backgroundColor: '#6A2C91',
+    flexWrap:'nowrap',
+    borderColor:'red',
+    borderWidth:2,
   },
   triangleContainer: {
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: 20,
-    marginLeft:15,
-    marginTop:40
+    marginLeft: 15,
+    marginTop: 40,
+    borderColor:'red',
+    borderWidth:2,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'center',
+    borderColor:'red',
+    borderWidth:2,
   },
   seat: {
-    width: 20, 
-    height: 20, 
+    width: 20,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    borderRadius: 15, 
+    borderRadius: 15,
     backgroundColor: 'black',
   },
-  
+
   selectedSeat: {
     backgroundColor: '#FFD700',
   },
-  
+
   seatLabel: {
     color: 'black',
     fontWeight: 'bold',
@@ -420,7 +449,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    borderRadius:30,
+    borderRadius: 30,
+    borderColor:'red',
+    borderWidth:2,
   },
   selectedText: {
     fontSize: 17,
@@ -457,6 +488,8 @@ const styles = StyleSheet.create({
   },
   settingsContainer: {
     marginTop: 20,
+    borderColor:'red',
+    borderWidth:2,
   },
   settingTitle: {
     color: '#fff',
@@ -490,21 +523,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 30,
     paddingVertical: 20,
-    marginTop: 30,
+    marginTop: 70,
     textTransform: 'uppercase',
+    borderColor:'red',
+    borderWidth:2,
   },
   purpleGoldButton: {
     backgroundColor: '#800080', // Rich purple base
     borderRadius: 25, // Rounded corners for a modern look
     paddingVertical: 12, // Comfortable padding
-    paddingHorizontal: 24, 
+    paddingHorizontal: 24,
     borderWidth: 2,
     borderColor: '#FFD700', // Gold border for emphasis
     shadowColor: '#FFD700', // Subtle gold shadow
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
-    elevation: 5, // For Android shadow effect
+    marginBottom: 10,
+    marginTop: 5
   },
   purpleGoldButtonText: {
     color: '#FFD700', // Gold text
@@ -520,6 +556,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, // Додає відступи з боків
     backgroundColor: 'rgba(0, 0, 0, 0.3)', // Напівпрозорий фон
     borderRadius: 25, // Закруглені кути
+    borderColor:'red',
+    borderWidth:2,
   },
   sectorButton: {
     fontSize: 24,
@@ -532,4 +570,29 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  gradientLineBlocks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'nowrap', // Вимикаємо перенесення блоків на новий рядок
+    marginBottom: 10,
+    marginLeft: 5,
+    marginTop: 20,
+    borderColor: 'green',
+    borderWidth: 2,
+    overflow: 'scroll', // Додаємо прокрутку, якщо елементи не вміщаються по ширині
+    width: '100%', // Переконайся, що контейнер використовує всю доступну ширину
+  },
+  block: {
+    width: 25,
+    height: 25,
+    backgroundColor: 'lightgray',
+    marginHorizontal: 5, // Додаємо простір між блоками з обох боків
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+blockText: {
+  fontSize: 10,              // Розмір тексту
+  fontWeight: 'bold',        // Жирний текст
+  color: '#000',             // Колір тексту
+},
 });
