@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#FFD700', // Золотий колір для заголовка
     fontWeight: 'bold',
+    marginTop:40
   },
   avatarContainer: {
     alignItems: 'center',

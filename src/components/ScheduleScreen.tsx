@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Button, TextInput, Alert } from 'react-native';
-import ScheduleImage from '../svg/ScheduleImage';
+import { Alert, Button, FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Дані для розкладу (можна замінити реальними даними)
 const scheduleData = [
   { id: '1', title: 'Lion Show', time: '10:00 AM', code: 'LION2024' },
   { id: '2', title: 'Clown Performance', time: '12:00 PM', code: 'CLOWN2024' },
   { id: '3', title: 'Elephant Parade', time: '2:00 PM', code: 'ELEPHANT2024' },
   { id: '4', title: 'Acrobatics', time: '4:00 PM', code: 'ACROBAT2024' },
+  { id: '5', title: 'Horse Show', time: '3:00 PM', code: 'HORSE2024' },
+  { id: '6', title: 'Puppet Show', time: '1:00 PM', code: 'PUPPET2024' },
 ];
 
 export default function ScheduleScreen() {
@@ -19,19 +19,25 @@ export default function ScheduleScreen() {
 
   // Обробка підтвердження коду сеансу
   const handleConfirmSession = () => {
-    if (sessionCode.trim() === '') {
+    const sessionCodeLower = sessionCode.trim().toLowerCase();
+
+    if (sessionCodeLower === '') {
       Alert.alert('Error', 'Please enter a session code.');
       setFilteredSchedule(scheduleData);
       setIsFiltered(false);
     } else {
-      // Пошук відповідного виступу за кодом
-      const filtered = scheduleData.filter((item) => item.code === sessionCode.trim());
+      // Пошук відповідного виступу за кодом або назвою
+      const filtered = scheduleData.filter((item) =>
+        item.code.toLowerCase() === sessionCodeLower ||
+        item.title.toLowerCase().includes(sessionCodeLower)
+      );
+
       if (filtered.length > 0) {
         setFilteredSchedule(filtered);
         setIsFiltered(true);
         Alert.alert('Session Code Confirmed', `Found Show: ${filtered[0].title}`);
       } else {
-        Alert.alert('Error', 'Invalid session code.');
+        Alert.alert('Error', 'Invalid session code or title.');
         setFilteredSchedule([]);
         setIsFiltered(true);
       }
@@ -65,7 +71,6 @@ export default function ScheduleScreen() {
     <View style={styles.container}>
       {/* Заголовок */}
       <View style={styles.header}>
-        <ScheduleImage />
         <Text style={styles.headerText}>Performance Schedule</Text>
       </View>
 
@@ -83,12 +88,14 @@ export default function ScheduleScreen() {
       {/* Поле введення коду сеансу */}
       <TextInput
         style={styles.input}
-        placeholder="Enter Session Code"
+        placeholder="Enter Session Code or Title"
         placeholderTextColor="#ddd"
         value={sessionCode}
         onChangeText={setSessionCode}
-        autoCapitalize="characters"
+        autoCapitalize="none"
         keyboardType="default"
+        returnKeyType="search"
+        onSubmitEditing={handleConfirmSession} // Додає обробник на натискання Enter
       />
 
       <View style={styles.buttonContainer}>
@@ -113,6 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+    marginTop: 30,
   },
   headerText: {
     fontSize: 24,
@@ -134,6 +142,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 10,
     elevation: 5,
+    marginTop: 10,
   },
   scheduleTitle: {
     fontSize: 18,
